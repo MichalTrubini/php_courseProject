@@ -5,10 +5,12 @@ declare(strict_types=1);
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Framework\App;
-use App\Controllers\HomeController;
+use App\config\Paths;
 
-$app = new App();
+use function App\config\registerRoutes;
 
-$app->get('/', [HomeController::class, 'home']);
+$app = new App(PATHS::SOURCE . 'app/container-definitions.php');
+
+registerRoutes($app);
 
 return $app;
