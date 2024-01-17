@@ -42,4 +42,8 @@ class Database
     public function fetch() {
         return $this->stmt->fetch();
     }
+
+    public function id() {
+        return $this->connection->lastInsertId();
+    }
 }

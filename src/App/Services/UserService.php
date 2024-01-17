@@ -34,17 +34,30 @@ class UserService
             'country' => $formData['country'],
             'url' => $formData['socialMediaURL']
         ]);
+
+        session_regenerate_id();
+        $_SESSION['user'] = $this->db->id();
+
     }
 
-    public function login(array $formData) {
+    public function login(array $formData)
+    {
         $user = $this->db->query('SELECT * FROM users WHERE email = :email', ['email' => $formData['email']])->fetch();
-    
+
         $passwordsMatch = password_verify($formData['password'], $user['password'] ?? '');
 
-        if(!$user || !$passwordsMatch){
+        if (!$user || !$passwordsMatch) {
             throw new ValidationException(['password' => 'Email or password is incorrect']);
         }
 
+        session_regenerate_id();
+
         $_SESSION['user'] = $user['id'];
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['user']);
+        session_regenerate_id();
     }
 }
