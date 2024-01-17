@@ -12,28 +12,6 @@ $db = new Database('mysql', [
 
 echo 'Connected to the database successfully!';
 
-try {
+$sqlFile = file_get_contents("./database.sql");
 
-    $db->connection->beginTransaction();
-
-    $db->connection->query("INSERT INTO `products` (`name`) VALUES ('berry')");
-
-    $search = 'berry';
-
-    $query = "SELECT * FROM `products` WHERE name=:name";
-
-    $stmt = $db->connection->prepare($query);
-
-    $stmt->bindValue('name', $search, PDO::PARAM_STR);
-
-    $stmt->execute();
-
-    var_dump($stmt->fetchAll());
-
-    $db->connection->commit();
-} catch (PDOException $e) {
-    if ($db->connection->inTransaction()) {
-        $db->connection->rollBack();
-    }
-    echo "Transaction failed";
-}
+$db->query($sqlFile);
