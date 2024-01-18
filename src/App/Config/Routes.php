@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\config;
 
 use Framework\App;
-use App\Controllers\{HomeController, AboutController, AuthController, TransactionController};
+use App\Controllers\{HomeController, AboutController, AuthController, TransactionController, ReceiptController};
 use App\Middleware\{AuthRequiredMiddleware, GuestOnlyMiddleware};
 
 $app = new App();
@@ -21,4 +21,9 @@ function registerRoutes(App $app)
     $app->get('/logout', [AuthController::class, 'logout'])->add(AuthRequiredMiddleware::class);
     $app->get('/transaction', [TransactionController::class, 'createView'])->add(AuthRequiredMiddleware::class);
     $app->post('/transaction', [TransactionController::class, 'create'])->add(AuthRequiredMiddleware::class);
+    $app->get('/transaction/{transaction}', [TransactionController::class, 'editView'])->add(AuthRequiredMiddleware::class);
+    $app->post('/transaction/{transaction}', [TransactionController::class, 'edit'])->add(AuthRequiredMiddleware::class);
+    $app->delete('/transaction/{transaction}', [TransactionController::class, 'delete'])->add(AuthRequiredMiddleware::class);
+    $app->get('/transaction/{transaction}/receipt', [ReceiptController::class, 'uploadView'])->add(AuthRequiredMiddleware::class);
+    $app->post('/transaction/{transaction}/receipt', [ReceiptController::class, 'upload'])->add(AuthRequiredMiddleware::class);
 }
