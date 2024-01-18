@@ -10,8 +10,8 @@ $db = new Database('mysql', [
     'dbname' => 'jn8a7w07',
 ], 'jn8a7w07', 'Kv9?OrP]cF');
 
-echo 'Connected to the database successfully!';
-
 $sqlFile = file_get_contents("./database.sql");
 
 $db->query($sqlFile);
+
+echo 'File run successfully';
